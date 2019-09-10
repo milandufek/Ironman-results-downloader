@@ -1,7 +1,10 @@
 #/usr/bin/bash
 
-# e.g. https://www.ironman.com/triathlon/events/emea/ironman-70.3/zell-am-see-kaprun/results.aspx
-BASE_LINK="https://www.ironman.com/triathlon/events/emea/ironman-70.3/zell-am-see-kaprun/results.aspx"
+e.g.
+# BASE_LINK="https://www.ironman.com/triathlon/events/emea/ironman-70.3/zell-am-see-kaprun/results.aspx"
+# BASE_LINK="https://eu.ironman.com/triathlon/events/emea/ironman/austria/results.aspx"
+
+BASE_LINK="https://eu.ironman.com/triathlon/events/emea/ironman/austria/results.aspx"
 RESULTS="results.csv"
 
 RES_FILE=$(echo $BASE_LINK | awk -F '/' '{print $NF}') && rm -f ${RES_FILE}*
@@ -15,10 +18,9 @@ for i in $(seq 2 $PAGES); do
 done
 
 echo "Name;Country;DivRank;GenderRank;OverallRank;Swim;Bike;Run;Finish" > $RESULTS
-grep "rd=20190901&amp;race=salzburg70.3&amp;bidid=" ${RES_FILE}* \
+grep ";bidid=" ${RES_FILE}* \
    | awk '{print $3,$4,$5,$6.$7,$8,$9,$10,$11,$12}' \
    | sed -e 's/class="athlete">//' -e 's/<\/a><\/span>//' -e 's/<td>/;/g' -e 's/<\/td>//g' \
    | tr -d ' ' >>$RESULTS
 
 rm -f ${RES_FILE}*
-
