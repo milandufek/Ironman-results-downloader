@@ -7,7 +7,7 @@ RESULTS="results.csv"
 RES_FILE=$(echo $BASE_LINK | awk -F '/' '{print $NF}') && rm -f ${RES_FILE}*
 
 wget $BASE_LINK || exit $?
-PAGES=$(grep -Eo "results.aspx\?p=[0-9]{2,3}" $RES_FILE | awk -F '=' '{print $NF}')
+PAGES=$(grep -Eo "results.aspx\?p=[0-9]{2,3}" $RES_FILE | tail -1 | awk -F '=' '{print $NF}')
 
 for i in $(seq 2 $PAGES); do
     wget -q ${BASE_LINK}?p=$i
