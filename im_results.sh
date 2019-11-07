@@ -10,7 +10,7 @@ TMP_DIR=./tmp
 
 function download_failed() {
     echo "Download failed $1"
-    exit $?
+    exit $1
 }
 
 if [ ! -d $TMP_DIR ]; then
